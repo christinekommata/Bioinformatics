@@ -1,0 +1,50 @@
+FileFormat 3.0
+## DESCRIPTION: ###############################################################
+#-    This is a 3-category classification problem adapted from Fisher's
+#-    prot data set. There are 4 predictive measurements made on each flower.
+#-    The third category (Species3) is linearly separable from the other two 
+#-    (and among these, only cases 17, 66, and 79 are not linearly separable). 
+#-    We've added a 5th predictor, Zrandom, which is a Gaussian noise variable
+#-    with mean 0 and units of standard deviation.
+# NP FILE SETTINGS
+    ResultsFile                prot.res
+#   ReadWeightsFile            prot.wts
+#   SaveWeightsFile            prot.wts
+    SaveTrainPrdFile           prot.ptr
+#   SaveTrainImputFile prot.itr
+#   SaveTestImputFile  prot.its
+#   SaveTestPrdFile            prot.pts
+# DATA FILE SETTINGS
+    ReadTrainFile        prot.trn
+#   ReadTestFile         prot.tst
+   NHeaders  1          IDColumn YES
+    StandardizeInputs 1   SaveStandWts NO   ImputeMissing median
+    InputColumns 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
+    OutputColumns 22 23
+    NVars   23            ShuffleData YES
+# REPORTING SETTINGS
+    DescribeVars YES              MinCasesPerBin 25 
+    NBoots     0         NEffectBoots  0 
+    CalccIndex YES       ScoreThreshold 0.7
+    OutputStatVars 0
+# CONNECT CALLS
+    Connect   1   21   22  25
+	Connect   22  25   26 27
+	Connect   26 27    28 29
+# CONFIGURATION SETTINGS
+    Ninputs   21          Nhidden   6          Noutputs   2
+    kNN 0                1ofN YES
+    HiddenUnitType  1    OutputUnitType 3
+    WeightRange 0.001 
+# TRAINING SETTINGS
+    TrainCriterion 3     BiasPenalty NO       WeightDecay -0.001
+    OptimizeMethod 1     SigmoidPrimeOffset 0
+    QPMaxFactor 1.75     QPModeSwitchThreshold 0
+    Stochastic NO       LearnRate 0.01    SplitLearnRate NO   Momentum 0.0
+# BEST-BY-HOLDOUT SETTINGS
+    PercentHoldout 50
+    AutoTrain YES        MinEpochs   50      BeyondBestEpoch 1.5
+    NSplits      10      SepBootXVal YES
+# AUTOMATIC RELEVANCE DETERMINATION SETTINGS
+    UseARD  NO       WhenARD auto    ARDTolerance 0.05   ARDFreq 25
+    GroupSelection Input   BiasRelevance NO    ARDFactor 1
